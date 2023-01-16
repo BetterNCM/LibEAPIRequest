@@ -4,7 +4,6 @@ import { version } from "../manifest.json";
 import { GLOBAL_EVENTS } from "./global-events";
 import { log, warn } from "./logger";
 import { getNCMImageUrl, getPlayingSong } from "./api";
-import { lfpPluginEnabled, lfpPluginSupported } from "./lib-frontend-play";
 
 export function useConfig(
 	key: string,
@@ -39,77 +38,13 @@ export function useConfig(
 	return [value, setValue];
 }
 
-export function useNowPlayingOpened(): boolean {
-	const [value, setValue] = React.useState(
-		!!document.getElementById("applemusic-like-lyrics-view"),
-	);
-	React.useEffect(() => {
-		setValue(!!document.getElementById("applemusic-like-lyrics-view"));
-		const onLyricPageOpen = () => {
-			log("歌词页面已显示");
-			setValue(true);
-		};
-		const onLyricPageHide = () => {
-			log("歌词页面已隐藏");
-			setValue(false);
-		};
-		GLOBAL_EVENTS.addEventListener("lyric-page-open", onLyricPageOpen);
-		GLOBAL_EVENTS.addEventListener("lyric-page-hide", onLyricPageHide);
-		return () => {
-			GLOBAL_EVENTS.removeEventListener("lyric-page-open", onLyricPageOpen);
-			GLOBAL_EVENTS.removeEventListener("lyric-page-hide", onLyricPageHide);
-		};
-	}, []);
 
-	return value;
-}
 
-export function useLFPSupported(): [boolean, boolean] {
-	const [supported, setSupported] = React.useState(lfpPluginSupported);
-	const [enabled, setEnabled] = React.useState(lfpPluginEnabled);
-	React.useEffect(() => {
-		GLOBAL_EVENTS.addEventListener(
-			"lfp-supported",
-			() => {
-				setSupported(true);
-			},
-			{
-				once: true,
-			},
-		);
 
-		GLOBAL_EVENTS.addEventListener("lfp-enabled", () => {
-			setEnabled(true);
-		});
-
-		GLOBAL_EVENTS.addEventListener("lfp-disabled", () => {
-			setEnabled(false);
-		});
-	}, []);
-
-	return [supported, enabled];
-}
-
-export function useFMOpened(): boolean {
-	const [value, setValue] = React.useState(location.hash === "#/m/fm/");
-	React.useEffect(() => {
-		const onHashChange = () => {
-			setValue(location.hash === "#/m/fm/");
-		};
-		window.addEventListener("hashchange", onHashChange);
-		return () => {
-			window.removeEventListener("hashchange", onHashChange);
-		};
-	}, []);
-
-	return value;
-}
 
 let cachedLatestVersion: string | undefined;
 
 export async function checkGithubLatestVersion(force = false): Promise<string> {
-	// https://ghproxy.com/https://raw.githubusercontent.com/Steve-xmh/applemusic-like-lyrics/main/dist/manifest.json
-	// https://raw.githubusercontent.com/Steve-xmh/applemusic-like-lyrics/main/dist/manifest.json
 
 	if (force) {
 		cachedLatestVersion = undefined;
@@ -120,7 +55,7 @@ export async function checkGithubLatestVersion(force = false): Promise<string> {
 	}
 
 	const GITHUB_DIST_MANIFEST_URL =
-		"https://raw.githubusercontent.com/Steve-xmh/applemusic-like-lyrics/main/dist/manifest.json";
+		"https://raw.githubusercontent.com/BetterNCM/LibEAPIRequest/main/dist/manifest.json";
 
 	try {
 		const manifest = (await (

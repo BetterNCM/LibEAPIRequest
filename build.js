@@ -6,11 +6,7 @@ const path = require("path");
 const manifest = require("./manifest.json");
 
 let entryPoints = [
-	"src/index.tsx",
-	"src/worker_script.ts",
-	"src/startup_script.ts",
-	"src/index.styl",
-	"src/lyric-test.ts",
+	"src/index.tsx"
 ];
 
 if (process.argv.includes("--style-only")) {

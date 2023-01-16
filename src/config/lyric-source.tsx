@@ -31,9 +31,9 @@ export const LyricSourceSettings: React.FC = () => {
 	}, [eapiRequestFuncName]);
 	return (
 		<>
-			<Title order={2}>歌词来源设置</Title>
+			<Title order={2}>网易云请求函数来源设置</Title>
 			<Text fz="md" sx={{ margin: "6px 0" }}>
-				如果歌词无法正确显示，有可能是无法获取网易云请求函数，或者找到的函数并不是网易云请求函数，请确认此处的函数名称是对应你所使用的网易云版本的请求函数。
+				如果依赖此插件的其他插件无法正确使用，有可能是无法获取网易云请求函数，或者找到的函数并不是网易云请求函数，请确认此处的函数名称是对应你所使用的网易云版本的请求函数。
 			</Text>
 			<Text fz="md" sx={{ margin: "6px 0" }}>
 				具体可以前往插件 Github 仓库查询或在 BetterNCM 讨论群内询问作者

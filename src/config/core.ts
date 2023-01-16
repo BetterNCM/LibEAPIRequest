@@ -8,7 +8,6 @@ import { GLOBAL_EVENTS } from "../global-events";
 import { warn } from "../logger";
 import { debounce, IS_WORKER } from "../utils";
 import { slug } from "../../manifest.json";
-import { setConfigFromMain } from "../worker";
 
 export interface Config {
 	[key: string]: string | undefined;
@@ -51,7 +50,6 @@ export const saveConfig = debounce(function saveConfig() {
 }, 2000);
 
 export function setConfig(key: string, value?: string) {
-	if (!IS_WORKER) setConfigFromMain({ [key]: value });
 	if (value === undefined) {
 		// rome-ignore lint/performance/noDelete: 防止 JSON 还把其写入配置中
 		delete GLOBAL_CONFIG[key];

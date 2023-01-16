@@ -25,4 +25,4 @@ jobs:
           automatic_release_tag: "dev-nightly"
           prerelease: true
           title: "最新开发调试构建"
-          files: Apple Music-like lyrics.plugin
+          files: LibEAPIRequest.plugin

@@ -4,7 +4,7 @@ import { log } from "./logger";
 import { genRandomString } from "./utils";
 const cachedFunctionMap: Map<string, Function> = new Map();
 
-export const settingPrefix = "applemusic-like-lyrics:";
+export const settingPrefix = "LibEAPIRequest:";
 
 export enum PlayState {
 	Playing = 1,
