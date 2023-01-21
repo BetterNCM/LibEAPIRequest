@@ -157,9 +157,13 @@ export function getListenTogetherStatus() {
 export function tryFindEapiRequestFuncName(
 	unsafe: boolean = false,
 ): string | null {
+	// 为了避免自身被搜索到，就把字符串拆开来组合了
+	const keyword1 = ["_bindTokenRequest", "yidun", "getToken", "undefined"];
+	const keyword2 = ["/api", "register", "anonimous"];
 	const result = betterncm.ncm.findApiFunction(
 		(v) =>
-			v.toString().includes("_bindTokenRequest yidun getToken undefined") &&
+			(v.toString().includes(keyword1.join(" ")) ||
+				v.toString().includes(keyword2.join("/"))) &&
 			v !== tryFindEapiRequestFuncName,
 	);
 	if (result) {

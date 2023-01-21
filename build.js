@@ -1,19 +1,23 @@
 const { build } = require("esbuild");
-const { stylusLoader } = require("esbuild-stylus-loader");
 const JSZip = require("jszip");
 const fs = require("fs");
 const path = require("path");
+const os = require("os");
 const manifest = require("./manifest.json");
 
-let entryPoints = [
-	"src/index.tsx"
-];
+let entryPoints = ["src/index.tsx"];
 
-if (process.argv.includes("--style-only")) {
-	entryPoints = ["src/index.styl"];
+function getDefaultBetterNCMPath() {
+	if (os.type() === "Windows_NT") {
+		return "C:/betterncm";
+	} else if (os.type() === "Darwin") {
+		return path.resolve(os.userInfo().homedir, ".betterncm");
+	}
+	return "./betterncm";
 }
 
-const betterncmUserPath = process.env["BETTERNCM_PROFILE"] || "C:/betterncm";
+const betterncmUserPath =
+	process.env["BETTERNCM_PROFILE"] || getDefaultBetterNCMPath();
 const devPath = path.resolve(
 	betterncmUserPath,
 	"plugins_dev",
@@ -33,6 +37,7 @@ build({
 	sourcemap: process.argv.includes("--dev") ? "inline" : false,
 	minify: !process.argv.includes("--dev"),
 	outdir: process.argv.includes("--dist") ? "dist" : devPath,
+	charset: "utf8",
 	define: {
 		DEBUG: process.argv.includes("--dev").toString(),
 		OPEN_PAGE_DIRECTLY: process.argv
@@ -51,14 +56,7 @@ build({
 				},
 		  }
 		: undefined,
-	plugins: [
-		stylusLoader({
-			stylusOptions: {
-				include: ["node_modules"],
-				includeCss: true,
-			},
-		}),
-	],
+	plugins: [],
 }).then((result) => {
 	console.log("Build success");
 	if (process.argv.includes("--dist")) {
@@ -85,6 +83,5 @@ build({
 		});
 		output.pipe(fs.createWriteStream("Apple Music-like lyrics.plugin"));
 		fs.copyFileSync("manifest.json", "dist/manifest.json");
-		fs.copyFileSync("assets/thumbnail.svg", "dist/thumbnail.svg");
 	}
 });

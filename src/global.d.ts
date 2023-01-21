@@ -1,5 +1,10 @@
 /// <reference types="./betterncm" />
 
+declare var React: typeof import("react");
+declare var ReactDOM: typeof import("react-dom");
+declare var h: typeof import("react").createElement;
+declare var f: typeof import("react").Fragment;
+
 interface EAPIResponse {
 	code: number;
 	error?: string;

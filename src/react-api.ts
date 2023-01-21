@@ -1,8 +1,7 @@
-import * as React from "react";
 import { getConfig, setConfig } from "./config/core";
 import { version } from "../manifest.json";
 import { GLOBAL_EVENTS } from "./global-events";
-import { log, warn } from "./logger";
+import { warn } from "./logger";
 import { getNCMImageUrl, getPlayingSong } from "./api";
 
 export function useConfig(
@@ -38,14 +37,9 @@ export function useConfig(
 	return [value, setValue];
 }
 
-
-
-
-
 let cachedLatestVersion: string | undefined;
 
 export async function checkGithubLatestVersion(force = false): Promise<string> {
-
 	if (force) {
 		cachedLatestVersion = undefined;
 	}
