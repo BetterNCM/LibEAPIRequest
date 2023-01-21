@@ -81,7 +81,7 @@ build({
 				level: 9,
 			},
 		});
-		output.pipe(fs.createWriteStream("Apple Music-like lyrics.plugin"));
+		output.pipe(fs.createWriteStream(`${manifest.name}.plugin`));
 		fs.copyFileSync("manifest.json", "dist/manifest.json");
 	}
 });
